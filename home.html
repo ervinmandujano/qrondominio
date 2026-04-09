@@ -27,40 +27,18 @@
     font-family: 'Raleway', sans-serif;
     font-weight: 300;
     overflow-x: hidden;
-    cursor: none;
   }
-
-  /* ── CURSOR ── */
-  .cursor {
-    position: fixed;
-    width: 10px; height: 10px;
-    background: var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%,-50%);
-    transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
   }
-  .cursor-ring {
-    position: fixed;
-    width: 36px; height: 36px;
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%,-50%);
-    transition: transform 0.15s ease-out, width 0.3s, height 0.3s, opacity 0.3s;
-    opacity: 0.5;
-  }
-
   /* ── NAV ── */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: nowrap;
     padding: 22px 60px;
     background: linear-gradient(to bottom, rgba(13,13,13,0.95) 0%, transparent 100%);
     backdrop-filter: blur(4px);
@@ -480,7 +458,6 @@
     background: transparent;
     color: var(--gold);
     font-size: 18px;
-    cursor: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -497,7 +474,6 @@
     width: 6px; height: 6px;
     border-radius: 50%;
     background: rgba(201,169,110,0.3);
-    cursor: none;
     transition: background 0.3s, transform 0.3s;
   }
   .c-dot.active {
@@ -686,7 +662,6 @@
     outline: none;
     transition: border-color 0.3s;
     width: 100%;
-    cursor: none;
   }
   .form-group input:focus,
   .form-group textarea:focus,
@@ -706,7 +681,6 @@
     font-size: 10px;
     letter-spacing: 4px;
     text-transform: uppercase;
-    cursor: none;
     transition: background 0.3s, transform 0.2s;
   }
   .btn-submit:hover { background: var(--gold-lt); transform: translateY(-2px); }
@@ -770,7 +744,6 @@
     display: none;
     flex-direction: column;
     gap: 5px;
-    cursor: pointer;
     padding: 4px;
     z-index: 200;
     background: none;
@@ -825,11 +798,6 @@
   }
 
   @media (max-width: 768px) {
-    .cursor, .cursor-ring { display: none !important; }
-    body { cursor: auto; }
-    .c-btn, .c-dot { cursor: pointer; }
-    .form-group input, .form-group textarea, .form-group select { cursor: text; }
-
     nav { padding: 16px 24px; }
     .nav-links { display: none !important; }
     .nav-hamburger { display: flex !important; }
@@ -897,10 +865,6 @@
 </style>
 </head>
 <body>
-
-<!-- Cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 
 <!-- Toast -->
 <div class="toast" id="toast">Mensaje enviado con éxito</div>
@@ -1571,41 +1535,6 @@
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // ── CURSOR ──
-  const cursor = document.getElementById('cursor');
-  const ring   = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top  = my + 'px';
-  });
-
-  function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top  = ry + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-
-  document.querySelectorAll('a, button, .c-dot, .amenity-card, .admin-card, .stat').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.width = '20px';
-      cursor.style.height = '20px';
-      ring.style.width = '56px';
-      ring.style.height = '56px';
-    });
-    el.addEventListener('mouseleave', () => {
-      cursor.style.width = '10px';
-      cursor.style.height = '10px';
-      ring.style.width = '36px';
-      ring.style.height = '36px';
-    });
-  });
-
   // ── 3D CAROUSEL ──
   const cards  = document.querySelectorAll('.carousel-card');
   const dots   = document.querySelectorAll('.c-dot');
